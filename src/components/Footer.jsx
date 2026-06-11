@@ -1,25 +1,52 @@
 import { Link } from 'react-router-dom'
 
+const CALC_LINKS = [
+  { to: '/bmi',        label: 'BMI Calculator' },
+  { to: '/age',        label: 'Age Calculator' },
+  { to: '/percentage', label: 'Percentage Calculator' },
+  { to: '/tdee',       label: 'TDEE Calculator' },
+  { to: '/bodyfat',    label: 'Body Fat Calculator' },
+]
+
 export default function Footer() {
   return (
     <footer className="bg-white border-t border-slate-100 mt-20 py-10">
       <div className="max-w-5xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🌿</span>
-            <span className="font-display font-extrabold text-slate-DEFAULT">CalcBloom</span>
+        <div className="flex flex-col md:flex-row items-start justify-between gap-8 mb-8">
+          {/* Brand */}
+          <div>
+            <Link to="/" className="flex items-center gap-2 mb-2">
+              <span className="text-xl" aria-hidden="true">🌿</span>
+              <span className="font-display font-extrabold text-slate-DEFAULT">CalcBloom</span>
+            </Link>
+            <p className="text-xs text-slate-soft max-w-xs leading-relaxed">
+              Free health and life calculators. No signup, no ads blocking results, instant answers.
+            </p>
           </div>
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-slate-soft">
-            <Link to="/bmi"        className="hover:text-mint transition-colors">BMI Calculator</Link>
-            <Link to="/age"        className="hover:text-mint transition-colors">Age Calculator</Link>
-            <Link to="/percentage" className="hover:text-mint transition-colors">Percentage Calculator</Link>
-            <Link to="/tdee"       className="hover:text-mint transition-colors">TDEE Calculator</Link>
-            <Link to="/bodyfat"    className="hover:text-mint transition-colors">Body Fat Calculator</Link>
-          </div>
+
+          {/* Sitemap-style nav — all pages linked for SEO crawlability */}
+          <nav aria-label="Calculator links">
+            <p className="text-xs font-semibold text-slate-DEFAULT uppercase tracking-wider mb-3">Calculators</p>
+            <ul className="space-y-2">
+              {CALC_LINKS.map(({ to, label }) => (
+                <li key={to}>
+                  <Link to={to} className="text-sm text-slate-soft hover:text-mint-DEFAULT transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
-        <p className="text-center text-xs text-slate-soft mt-6">
-          © {new Date().getFullYear()} CalcBloom · Free calculators for everyone · Results are estimates, not medical advice.
-        </p>
+
+        <div className="border-t border-slate-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-xs text-slate-soft">
+            © {new Date().getFullYear()} CalcBloom · Free calculators for everyone
+          </p>
+          <p className="text-xs text-slate-soft">
+            Results are estimates, not medical advice.
+          </p>
+        </div>
       </div>
     </footer>
   )

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useSEO } from '../useSEO'
 import AdSlot from '../components/AdSlot'
 
 const TOOLS = [
@@ -35,10 +35,29 @@ const TOOLS = [
   },
 ]
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Free Health Calculators",
+  "description": "A collection of free, accurate health and life calculators — BMI, age, TDEE, body fat, and percentage.",
+  "url": "https://calcbloom1.vercel.app/",
+  "numberOfItems": 5,
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "BMI Calculator", "url": "https://calcbloom1.vercel.app/bmi" },
+    { "@type": "ListItem", "position": 2, "name": "Age Calculator", "url": "https://calcbloom1.vercel.app/age" },
+    { "@type": "ListItem", "position": 3, "name": "Percentage Calculator", "url": "https://calcbloom1.vercel.app/percentage" },
+    { "@type": "ListItem", "position": 4, "name": "TDEE Calculator", "url": "https://calcbloom1.vercel.app/tdee" },
+    { "@type": "ListItem", "position": 5, "name": "Body Fat Calculator", "url": "https://calcbloom1.vercel.app/bodyfat" },
+  ]
+}
+
 export default function Home() {
-  useEffect(() => {
-    document.title = 'CalcBloom – Free Health & Life Calculators'
-  }, [])
+  useSEO({
+    title: 'CalcBloom – Free Health & Life Calculators',
+    description: 'Free BMI calculator, age calculator, TDEE calculator, body fat calculator and percentage calculator. Fast, accurate, no signup needed.',
+    path: '/',
+    structuredData,
+  })
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-mint-light via-cream to-cream">
@@ -62,12 +81,14 @@ export default function Home() {
       </div>
 
       {/* Tools grid */}
-      <section className="max-w-3xl mx-auto px-4 pb-16">
+      <section className="max-w-3xl mx-auto px-4 pb-16" aria-label="Available calculators">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {TOOLS.map(t => (
             <Link key={t.to} to={t.to}
-              className="card p-6 hover:shadow-md hover:-translate-y-0.5 transition-all group">
-              <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center text-2xl mb-4 ${t.accent}`}>
+              className="card p-6 hover:shadow-md hover:-translate-y-0.5 transition-all group"
+              aria-label={t.title}>
+              <div className={`w-12 h-12 rounded-2xl border flex items-center justify-center text-2xl mb-4 ${t.accent}`}
+                aria-hidden="true">
                 {t.emoji}
               </div>
               <h2 className="font-display font-bold text-slate-DEFAULT text-lg mb-1 group-hover:text-mint-DEFAULT transition-colors">
@@ -83,7 +104,7 @@ export default function Home() {
       </section>
 
       {/* Trust strip */}
-      <section className="border-t border-slate-100 bg-white py-8">
+      <section className="border-t border-slate-100 bg-white py-8" aria-label="Site stats">
         <div className="max-w-3xl mx-auto px-4 flex flex-wrap justify-center gap-8 text-center">
           {[['100%', 'Free forever'], ['0', 'Signups needed'], ['5', 'Calculators'], ['Instant', 'Results']].map(([val, label]) => (
             <div key={label}>
@@ -92,6 +113,25 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* SEO content block */}
+      <section className="max-w-3xl mx-auto px-4 py-12 text-slate-mid text-sm leading-relaxed space-y-4">
+        <h2 className="font-display font-bold text-2xl text-slate-DEFAULT">Free health calculators, no strings attached</h2>
+        <p>
+          CalcBloom offers a growing suite of health and everyday calculators — all completely free, with no account required and no paywalls. Whether you need to check your BMI before a doctor's appointment, calculate your exact age for a visa application, figure out how many calories to eat to lose weight, or work out a discount at checkout, you'll find a clean and accurate tool here.
+        </p>
+        <p>
+          Every calculator works entirely in your browser. Your data is never sent to a server — it stays on your device. Results are instant, and each tool supports both metric and imperial units.
+        </p>
+        <h3 className="font-display font-bold text-lg text-slate-DEFAULT mt-6">What calculators are available?</h3>
+        <ul className="list-disc list-inside space-y-1">
+          <li><strong>BMI Calculator</strong> — calculate your Body Mass Index from height and weight, with a health category and visual gauge.</li>
+          <li><strong>Age Calculator</strong> — find your exact age in years, months, and days, plus your birth day of the week and next birthday countdown.</li>
+          <li><strong>Percentage Calculator</strong> — handle discounts, percentage change, tips, tax, and more with four calculation modes.</li>
+          <li><strong>TDEE Calculator</strong> — find your Total Daily Energy Expenditure using the Mifflin-St Jeor equation, with calorie targets for weight loss, maintenance, and muscle gain.</li>
+          <li><strong>Body Fat Calculator</strong> — estimate body fat percentage using the US Navy circumference method for men and women.</li>
+        </ul>
       </section>
     </div>
   )

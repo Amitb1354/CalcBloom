@@ -1,11 +1,12 @@
-import { useEffect } from 'react'
+import { useSEO } from '../useSEO'
 
-export default function PageWrapper({ title, description, accent = 'mint', children }) {
-  useEffect(() => {
-    document.title = `${title} | CalcBloom`
-    const meta = document.querySelector('meta[name="description"]')
-    if (meta) meta.setAttribute('content', description)
-  }, [title, description])
+export default function PageWrapper({ title, description, path, accent = 'mint', structuredData, children }) {
+  useSEO({
+    title: `${title} | CalcBloom`,
+    description,
+    path,
+    structuredData,
+  })
 
   const accentBg = {
     mint:     'from-mint-light via-cream to-cream',
